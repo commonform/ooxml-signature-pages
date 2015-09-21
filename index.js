@@ -71,7 +71,7 @@ function entityParagraphs(entities) {
           indefinite(element.jurisdiction) + ' ' +
           element.jurisdiction + ' ' +
           element.form +
-          ( first ? '' : ( ', its ' + list[index - 1].role ) ))) },
+          ( first ? '' : ( ', its ' + list[index - 1].by ) ))) },
       [ ]) }
 
 var BOLD = '<w:rPr><w:b /></w:rPr>'
@@ -95,7 +95,7 @@ function page(argument) {
     indentedParagraph('\n\n' + BY + BLANKS) +
     indentedParagraph('Name:\t' + argument.name) +
     ( 'entities' in argument ?
-         indentedParagraph('Title:\t' + argument.entities[0].role) : '' ) +
+         indentedParagraph('Title:\t' + argument.entities[0].by) : '' ) +
     ( argument.information ?
         argument.information
           .map(function(element) {
