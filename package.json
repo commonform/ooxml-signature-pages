@@ -6,6 +6,7 @@
   "repository": "commonform/ooxml-signature-pages",
   "license": "Apache-2.0",
   "dependencies": {
+    "indefinite-article": "0.0.2",
     "xml-escape": "^1.0.0"
   },
   "scripts": {
