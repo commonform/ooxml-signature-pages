@@ -60,7 +60,6 @@ var fields = {
 // Generate indented paragraphs for each of the entities in a block.
 function entityParagraphs(entities) {
   return entities
-    .reverse()
     .reduce(
       function(returned, element, index, list) {
         var first = index === 0
