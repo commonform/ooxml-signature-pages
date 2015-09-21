@@ -64,6 +64,7 @@ function entityParagraphs(entities) {
       function(returned, element, index, list) {
         var first = index === 0
         return returned.concat(indentedParagraph(
+          ( first ? '' : 'By:\t' ) +
           element.name + ', ' +
           indefinite(element.jurisdiction) + ' ' +
           element.jurisdiction + ' ' +
