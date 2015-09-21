@@ -93,7 +93,7 @@ function page(argument) {
     ( 'entities' in argument ?
         entityParagraphs(argument.entities) : '' ) +
     indentedParagraph('\n\n' + BY + BLANKS) +
-    indentedParagraph('Name: ' + argument.name) +
+    indentedParagraph('Name:\t' + argument.name) +
     ( 'entities' in argument ?
          indentedParagraph('Title:\t' + argument.entities[0].role) : '' ) +
     ( argument.information ?
