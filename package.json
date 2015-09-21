@@ -7,5 +7,12 @@
   "license": "Apache-2.0",
   "dependencies": {
     "xml-escape": "^1.0.0"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "devDependencies": {
+    "signature-page-schema": "^0.1.2",
+    "tv4": "^1.2.7"
   }
 }
