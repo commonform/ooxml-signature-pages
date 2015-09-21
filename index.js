@@ -87,7 +87,8 @@ function termParagraph(term) {
 // Generate a signature page.
 function page(argument) {
   return (
-    header(argument.header + '\n') +
+    ( 'header' in argument ?
+        header(argument.header + '\n') : '' ) +
     ( 'term' in argument ?
         termParagraph(argument.term) : '' ) +
     ( 'entities' in argument ?
