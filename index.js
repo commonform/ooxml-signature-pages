@@ -57,6 +57,8 @@ var fields = {
   date: ['Date', BLANKS ],
   email: [ 'Email', BLANKS ] }
 
+var BY = 'By:\t'
+
 // Generate indented paragraphs for each of the entities in a block.
 function entityParagraphs(entities) {
   return entities
@@ -64,7 +66,7 @@ function entityParagraphs(entities) {
       function(returned, element, index, list) {
         var first = index === 0
         return returned.concat(indentedParagraph(
-          ( first ? '' : 'By:\t' ) +
+          ( first ? '' : BY ) +
           element.name + ', ' +
           indefinite(element.jurisdiction) + ' ' +
           element.jurisdiction + ' ' +
@@ -90,7 +92,7 @@ function page(argument) {
         termParagraph(argument.term) : '' ) +
     ( 'entities' in argument ?
         entityParagraphs(argument.entities) : '' ) +
-    indentedParagraph('\n\nBy:\t' + BLANKS) +
+    indentedParagraph('\n\n' + BY + BLANKS) +
     indentedParagraph('Name: ' + argument.name) +
     ( 'entities' in argument ?
          indentedParagraph('Title:\t' + argument.entities[0].role) : '' ) +
