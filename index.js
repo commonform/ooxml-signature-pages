@@ -27,6 +27,11 @@ var PAGES_FOLLOW = p(
   pPr('<w:jc w:val="center" />') +
   run(t('[Signature pages follow.]')))
 
+// [Signature page follows.], centered
+var PAGE_FOLLOWS = p(
+  pPr('<w:jc w:val="center" />') +
+  run(t('[Signature page follows.]')))
+
 var HEADER_INDENT = '720'
 
 // Generate a header paragraph. The part that usually says "The parties are
@@ -109,7 +114,7 @@ function ooxmlSignaturePages(signaturePages) {
   if (!Array.isArray(signaturePages)) {
     throw new Error('Argument must be an Array of signature pages') }
   return (
-    PAGES_FOLLOW +
+    ( signaturePages.length === 1 ? PAGE_FOLLOWS : PAGES_FOLLOW ) +
     PAGE_BREAK +
     signaturePages
       .map(page)
