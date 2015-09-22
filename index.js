@@ -67,10 +67,10 @@ function entityParagraphs(entities) {
         var first = index === 0
         return returned.concat(indentedParagraph(
           ( first ? '' : BY ) +
-          element.name + ', ' +
-          indefinite(element.jurisdiction) + ' ' +
-          element.jurisdiction + ' ' +
-          element.form +
+          ( element.name || BLANKS ) + ', ' +
+          indefinite(element.jurisdiction || 'Delaware') + ' ' +
+          ( element.jurisdiction || BLANKS ) + ' ' +
+          ( element.form || BLANKS ) +
           ( first ? '' : ( ', its ' + list[index - 1].by ) ))) },
       [ ]) }
 
@@ -87,16 +87,15 @@ function termParagraph(term) {
 // Generate a signature page.
 function page(argument) {
   return (
-    ( 'header' in argument ?
-        header(argument.header + '\n') : '' ) +
-    ( 'term' in argument ?
-        termParagraph(argument.term) : '' ) +
+    ( 'header' in argument ? header(argument.header + '\n') : '' ) +
+    ( 'term' in argument ? termParagraph(argument.term) : '' ) +
     ( 'entities' in argument ?
         entityParagraphs(argument.entities) : '' ) +
     indentedParagraph('\n\n' + BY + BLANKS) +
-    indentedParagraph('Name:\t' + argument.name) +
+    indentedParagraph('Name:\t' + ( argument.name || BLANKS )) +
     ( 'entities' in argument ?
-         indentedParagraph('Title:\t' + argument.entities[0].by) : '' ) +
+         indentedParagraph('Title:\t' + argument.entities[0].by) :
+         '' ) +
     ( argument.information ?
         argument.information
           .map(function(element) {
