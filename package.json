@@ -1,6 +1,6 @@
 {
   "name": "ooxml-signature-pages",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Generate OOXML markup for signature pages",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "repository": "commonform/ooxml-signature-pages",
