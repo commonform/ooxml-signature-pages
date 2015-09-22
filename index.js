@@ -71,7 +71,7 @@ function entityParagraphs(entities) {
           indefinite(element.jurisdiction || 'Delaware') + ' ' +
           ( element.jurisdiction || BLANKS ) + ' ' +
           ( element.form || BLANKS ) +
-          ( first ? '' : ( ', its ' + list[index - 1].by ) ))) },
+          ( first ? '' : ( ', its ' + ( list[index - 1].by || BLANKS ) ) ))) },
       [ ]) }
 
 var BOLD = '<w:rPr><w:b /></w:rPr>'
@@ -94,7 +94,9 @@ function page(argument) {
     indentedParagraph('\n\n' + BY + BLANKS) +
     indentedParagraph('Name:\t' + ( argument.name || BLANKS )) +
     ( 'entities' in argument ?
-         indentedParagraph('Title:\t' + argument.entities[0].by) :
+         indentedParagraph(
+           'Title:\t' +
+           ( argument.entities[0].by || BLANKS )) :
          '' ) +
     ( argument.information ?
         argument.information
