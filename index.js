@@ -107,7 +107,12 @@ function page(argument) {
         argument.information
           .map(function(element) {
             var match = fields[element]
-            return indentedParagraph(match[0] + ':\t' + match[1]) })
+            if (match) {
+              return indentedParagraph(match[0] + ':\t' + match[1]) }
+            else {
+              return indentedParagraph(
+                ( element.charAt(0).toUpperCase() + element.substring(1) ) +
+                ':\t' + BLANKS) } })
           .join('') : '' ) ) }
 
 function ooxmlSignaturePages(signaturePages) {
