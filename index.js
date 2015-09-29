@@ -40,7 +40,7 @@ function header(text) {
   return p(
     pPr(
       '<w:ind w:firstLine="' + HEADER_INDENT + '" />' +
-      '<w:jc w:val="start" />') +
+      '<w:jc w:val="both" />') +
     run(t(text))) }
 
 var BLOCK_INDENT = '4320'
