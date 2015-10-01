@@ -101,7 +101,7 @@ function page(argument) {
     ( 'entities' in argument ?
          indentedParagraph(
            'Title:\t' +
-           ( argument.entities[0].by || BLANKS )) :
+           ( argument.entities[argument.entities.length - 1].by || BLANKS )) :
          '' ) +
     ( argument.information ?
         argument.information
