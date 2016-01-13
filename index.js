@@ -49,6 +49,7 @@ var BLOCK_INDENT = '4320'
 function indentedParagraph(text) {
   return p(
     pPr('<w:ind w:left="' + BLOCK_INDENT + '" />') +
+    pPr('<w:jc w:val="left" />') +
     run(t(text))) }
 
 // Underscore fill-in-the-blank
