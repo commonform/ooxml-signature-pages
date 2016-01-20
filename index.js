@@ -1,3 +1,4 @@
+var capitalize = require('capitalize')
 var escape = require('xml-escape')
 var indefinite = require('indefinite-article')
 var repeat = require('string-repeat')
@@ -115,9 +116,7 @@ function page(argument) {
               match[0] + ':' + repeat('\n', match[1] + 1)) }
           else {
             return indentedParagraph(
-              ( element.charAt(0).toUpperCase() +
-                element.substring(1) ) +
-              ':' +
+              capitalize(element) + ':' +
               repeat('\n', 2)) } })
         .join('')) ) }
 
