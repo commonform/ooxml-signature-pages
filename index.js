@@ -1,5 +1,6 @@
 var escape = require('xml-escape')
 var indefinite = require('indefinite-article')
+var repeat = require('string-repeat')
 
 module.exports = ooxmlSignaturePages
 
@@ -52,16 +53,11 @@ function indentedParagraph(text) {
     pPr('<w:jc w:val="left" />') +
     run(t(text))) }
 
-// Underscore fill-in-the-blank
-var BLANKS = '____________________'
-
 // How to display information fields
 var fields = {
-  address: [
-    'Address',
-    ( '\n' + [ BLANKS, BLANKS, BLANKS, BLANKS ].join('\n') ) ],
-  date: ['Date', BLANKS ],
-  email: [ 'Email', BLANKS ] }
+  address: [ 'Address', 4 ],
+  date: [ 'Date', 0 ],
+  email: [ 'Email', 0 ] }
 
 var BY = 'By:\t'
 
@@ -73,11 +69,11 @@ function entityParagraphs(entities) {
         var first = index === 0
         return returned.concat(indentedParagraph(
           ( first ? '' : BY ) +
-          ( element.name || BLANKS ) + ', ' +
+          when(element.name, ( element.name + ',' )) + '\n\n' +
           indefinite(element.jurisdiction || 'Delaware') + ' ' +
-          ( element.jurisdiction || BLANKS ) + ' ' +
-          ( element.form || BLANKS ) +
-          ( first ? '' : ( ', its ' + ( list[index - 1].by || BLANKS ) ) ))) },
+          ( element.jurisdiction || '' ) + ' ' +
+          ( element.form || '' ) +
+          ( first ? '' : ( ', its ' + ( list[index - 1].by || '' ) ) ))) },
       [ ]) }
 
 var BOLD = '<w:rPr><w:b /></w:rPr>'
@@ -92,29 +88,45 @@ function termParagraph(term) {
 
 // Generate a signature page.
 function page(argument) {
+  var lastTitle = argument.entities[argument.entities.length - 1].by
   return (
-    ( 'header' in argument ? header(argument.header) : '' ) +
-    ( 'term' in argument ? termParagraph(argument.term) : '' ) +
-    ( 'entities' in argument ?
-        entityParagraphs(argument.entities) : '' ) +
-    indentedParagraph('\n\n' + BY + BLANKS) +
-    indentedParagraph('Name:\t' + ( argument.name || BLANKS )) +
-    ( 'entities' in argument ?
-         indentedParagraph(
-           'Title:\t' +
-           ( argument.entities[argument.entities.length - 1].by || BLANKS )) :
-         '' ) +
-    ( argument.information ?
-        argument.information
-          .map(function(element) {
-            var match = fields[element]
-            if (match) {
-              return indentedParagraph(match[0] + ':\t' + match[1]) }
-            else {
-              return indentedParagraph(
-                ( element.charAt(0).toUpperCase() + element.substring(1) ) +
-                ':\t' + BLANKS) } })
-          .join('') : '' ) ) }
+    when(( 'header' in argument ),
+      header(argument.header)) +
+    when(( 'term' in argument ),
+      termParagraph(argument.term)) +
+    when(( 'entities' in argument ),
+      entityParagraphs(argument.entities)) +
+    indentedParagraph('\n\n' + BY + '\n') +
+    indentedParagraph(
+      'Name:' +
+      when(argument.name, ( '\t' + argument.name )) +
+      '\n') +
+    when(( 'entities' in argument ),
+      indentedParagraph(
+        'Title:' +
+        when(lastTitle, ( '\t' + lastTitle )) +
+        '\n')) +
+    when(argument.information,
+      argument.information
+        .map(function(element) {
+          var match = fields[element]
+          if (match) {
+            return indentedParagraph(
+              match[0] + ':' + repeat('\n', match[1] + 1)) }
+          else {
+            return indentedParagraph(
+              ( element.charAt(0).toUpperCase() +
+                element.substring(1) ) +
+              ':' +
+              repeat('\n', 2)) } })
+        .join('')) ) }
+
+function when(predicate, value, alternative) {
+  return (
+    predicate ?
+      value :
+      ( alternative ?
+          alternative : '' ) ) }
 
 function ooxmlSignaturePages(signaturePages) {
   if (!Array.isArray(signaturePages)) {

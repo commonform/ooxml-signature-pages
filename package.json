@@ -7,6 +7,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "indefinite-article": "0.0.2",
+    "string-repeat": "^1.1.1",
     "xml-escape": "^1.0.0"
   }
 }
