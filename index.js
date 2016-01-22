@@ -70,7 +70,7 @@ function entityParagraphs(entities) {
         var first = index === 0
         return returned.concat(indentedParagraph(
           ( first ? '' : BY ) +
-          when(element.name, ( element.name + ',' )) + '\n\n' +
+          ( element.name ? ( element.name + ',' ) : '' ) + '\n\n' +
           indefinite(element.jurisdiction || 'Delaware') + ' ' +
           ( element.jurisdiction || '' ) + ' ' +
           ( element.form || '' ) +
@@ -89,25 +89,25 @@ function termParagraph(term) {
 
 // Generate a signature page.
 function page(argument) {
-  var lastTitle = argument.entities[argument.entities.length - 1].by
+  var lastTitle = (
+    ( 'entities' in argument ) ?
+      argument.entities[argument.entities.length - 1].by : null )
   return (
-    when(( 'header' in argument ),
-      header(argument.header)) +
-    when(( 'term' in argument ),
-      termParagraph(argument.term)) +
-    when(( 'entities' in argument ),
-      entityParagraphs(argument.entities)) +
+    ( ( 'header' in argument ) ? header(argument.header) : '' ) +
+    ( ( 'term' in argument ) ? termParagraph(argument.term) : '' ) +
+    ( ( 'entities' in argument ) ?
+        entityParagraphs(argument.entities) : '' ) +
     indentedParagraph('\n\n' + BY + '\n') +
     indentedParagraph(
       'Name:' +
-      when(argument.name, ( '\t' + argument.name )) +
+      ( argument.name ? ( '\t' + argument.name ) : '' ) +
       '\n') +
-    when(( 'entities' in argument ),
+    ( ( 'entities' in argument ) ?
       indentedParagraph(
         'Title:' +
-        when(lastTitle, ( '\t' + lastTitle )) +
-        '\n')) +
-    when(argument.information,
+        ( lastTitle ? ( '\t' + lastTitle ) : '' ) +
+        '\n') : '') +
+    ( argument.information ?
       argument.information
         .map(function(element) {
           var match = fields[element]
@@ -118,14 +118,7 @@ function page(argument) {
             return indentedParagraph(
               capitalize(element) + ':' +
               repeat('\n', 2)) } })
-        .join('')) ) }
-
-function when(predicate, value, alternative) {
-  return (
-    predicate ?
-      value :
-      ( alternative ?
-          alternative : '' ) ) }
+        .join('') : '' ) ) }
 
 function ooxmlSignaturePages(signaturePages) {
   if (!Array.isArray(signaturePages)) {
