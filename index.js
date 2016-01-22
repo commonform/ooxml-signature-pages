@@ -60,7 +60,7 @@ var fields = {
   date: [ 'Date', 0 ],
   email: [ 'Email', 0 ] }
 
-var BY = 'By:\t'
+var BY = 'By: '
 
 // Generate indented paragraphs for each of the entities in a block.
 function entityParagraphs(entities) {
@@ -74,7 +74,7 @@ function entityParagraphs(entities) {
           indefinite(element.jurisdiction || 'Delaware') + ' ' +
           ( element.jurisdiction || '' ) + ' ' +
           ( element.form || '' ) +
-          ( first ? '' : ( ', its ' + ( list[index - 1].by || '' ) ) ))) },
+          ( first ? '' : ( '\nits ' + ( list[index - 1].by || '' ) ) ))) },
       [ ]) }
 
 var BOLD = '<w:rPr><w:b /></w:rPr>'
