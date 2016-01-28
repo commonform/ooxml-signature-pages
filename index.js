@@ -60,7 +60,7 @@ var fields = {
   date: [ 'Date', 0 ],
   email: [ 'Email', 0 ] }
 
-var BY = 'By: '
+var BY = 'By:'
 
 // Generate indented paragraphs for each of the entities in a block.
 function entityParagraphs(entities) {
