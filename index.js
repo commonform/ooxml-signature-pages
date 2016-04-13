@@ -34,6 +34,11 @@ var PAGE_FOLLOWS = p(
   pPr('<w:jc w:val="center" />') +
   run(t('[Signature page follows.]')))
 
+// [Document ends here.], centered
+var NO_PAGES = p(
+  pPr('<w:jc w:val="center" />') +
+  run(t('[Document ends here.]')))
+
 var HEADER_INDENT = '720'
 
 // Generate a header paragraph. The part that usually says "The parties are
@@ -123,9 +128,12 @@ function page(argument) {
 function ooxmlSignaturePages(signaturePages) {
   if (!Array.isArray(signaturePages)) {
     throw new Error('Argument must be an Array of signature pages') }
+  var pageCount = signaturePages.length
   return (
-    ( signaturePages.length === 1 ? PAGE_FOLLOWS : PAGES_FOLLOW ) +
-    PAGE_BREAK +
-    signaturePages
-      .map(page)
-      .join(PAGE_BREAK) ) }
+    ( pageCount === 0 )
+      ? NO_PAGES
+      : ( signaturePages.length === 1 ? PAGE_FOLLOWS : PAGES_FOLLOW ) +
+          PAGE_BREAK +
+          signaturePages
+            .map(page)
+            .join(PAGE_BREAK) ) }
