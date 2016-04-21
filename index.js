@@ -49,6 +49,7 @@ function header(text) {
   return p(
     pPr(
       '<w:ind w:firstLine="' + HEADER_INDENT + '" />' +
+      '<w:keepNext/>' +
       '<w:jc w:val="both" />') +
     run(t(text))) }
 
