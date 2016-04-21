@@ -24,6 +24,8 @@ function t(text) {
 // A paragraph containing just a page break
 var PAGE_BREAK = p(run('<w:br w:type="page"/>'))
 
+var LINE_BREAK = '<w:br/>'
+
 // [Signature pages follow.], centered
 var PAGES_FOLLOW = p(
   pPr('<w:jc w:val="center" />') +
@@ -57,7 +59,11 @@ function indentedParagraph(text) {
   return p(
     pPr('<w:ind w:left="' + BLOCK_INDENT + '" />') +
     pPr('<w:jc w:val="left" />') +
-    run(t(text))) }
+    run(
+      text
+        .split('\n')
+        .map(t)
+        .join(LINE_BREAK))) }
 
 // How to display information fields
 var fields = {
