@@ -37,11 +37,21 @@ var PAGE_FOLLOWS = p(
   run(t('[Signature page follows.]')))
 
 // [Document ends here.], centered
-var NO_PAGES = p(
+var DOCUMENT_ENDS_HERE = p(
   pPr('<w:jc w:val="center" />') +
   run(t('[Document ends here.]')))
 
-var HEADER_INDENT = '720'
+// [Signature follows.], centered
+var SIGNATURE_FOLLOWS = p(
+  pPr('<w:jc w:val="center" />') +
+  run(t('[Signature follows.]')))
+
+// [Signature follows.], centered
+var SIGNATURES_FOLLOW = p(
+  pPr('<w:jc w:val="center" />') +
+  run(t('[Signatures follow.]')))
+
+var HEADER_INDENT = '0'
 
 // Generate a header paragraph. The part that usually says "The parties are
 // entering into...".
@@ -60,6 +70,7 @@ function indentedParagraph(text) {
   return p(
     pPr('<w:ind w:left="' + BLOCK_INDENT + '" />') +
     pPr('<w:jc w:val="left" />') +
+    pPr('<w:keepNext/>') +
     run(
       text
         .split('\n')
@@ -96,6 +107,7 @@ var BOLD = '<w:rPr><w:b /></w:rPr>'
 function termParagraph(term) {
   return p(
     pPr('<w:ind w:left="' + BLOCK_INDENT + '" />') +
+      pPr('<w:keepNext/>') +
     run(BOLD + t(term)) +
     run(t(':'))) }
 
@@ -132,15 +144,28 @@ function page(argument) {
               repeat('\n', 2)) } })
         .join('') : '' ) ) }
 
-function ooxmlSignaturePages(signaturePages) {
-  if (!Array.isArray(signaturePages)) {
-    throw new Error('Argument must be an Array of signature pages') }
-  var pageCount = signaturePages.length
+function ooxmlSignaturePages(signatures) {
+  if (!Array.isArray(signatures)) {
+    throw new Error('Argument must be an Array of signatures.') }
+  var signatureCount = signatures.length
+  var pageCount = signatures
+    .reduce(
+      function(count, pageData) {
+        return ( count + ( pageData.samePage ? 0 : 1 ) ) },
+      0)
+  var firstSignature = signatures[0]
   return (
-    ( pageCount === 0 )
-      ? NO_PAGES
-      : ( signaturePages.length === 1 ? PAGE_FOLLOWS : PAGES_FOLLOW ) +
-          PAGE_BREAK +
-          signaturePages
-            .map(page)
-            .join(PAGE_BREAK) ) }
+    ( signatureCount === 0 )
+      ? DOCUMENT_ENDS_HERE
+      : ( firstSignature.samePage
+          ? ( firstSignature.header
+              ? ''
+              : ( ( signatureCount === 1 )
+                  ? SIGNATURE_FOLLOWS
+                  : SIGNATURES_FOLLOW) )
+          : ( ( pageCount === 1 ) ? PAGE_FOLLOWS : PAGES_FOLLOW ) ) +
+          signatures
+            .map(function(pageData) {
+              return (
+                ( pageData.samePage ? '' : PAGE_BREAK ) +
+                page(pageData) ) }) ) }
