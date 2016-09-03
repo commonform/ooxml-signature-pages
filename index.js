@@ -85,18 +85,11 @@ function indentedParagraph (text) {
     pPr('<w:keepNext/>') +
     run(
       text
-      .split('\n')
-      .map(t)
-      .join(LINE_BREAK)
+        .split('\n')
+        .map(t)
+        .join(LINE_BREAK)
     )
   )
-}
-
-// How to display information fields
-var fields = {
-  address: ['Address', 4],
-  date: ['Date', 0],
-  email: ['Email', 0]
 }
 
 var BY = 'By:'
@@ -143,7 +136,11 @@ function page (argument) {
     ('header' in argument ? header(argument.header) : '') +
     ('term' in argument ? termParagraph(argument.term) : '') +
     (hasEntities ? entityParagraphs(argument.entities) : '') +
-    indentedParagraph('\n\n' + BY + '\n') +
+    indentedParagraph(
+      '\n\n' + BY +
+      (argument.conformed ? ('\t' + argument.conformed) : '') +
+      '\n'
+    ) +
     indentedParagraph(
       'Name:' +
       (argument.name ? ('\t' + argument.name) : '') +
@@ -157,26 +154,48 @@ function page (argument) {
       )
       : ''
     ) +
-    (
-      argument.information
-      ? argument.information
-        .map(function (element) {
-          var match = fields[element]
-          if (match) {
-            return indentedParagraph(
-              match[0] + ':' + repeat('\n', match[1] + 1)
-            )
-          } else {
-            return indentedParagraph(
-              capitalize(element) + ':' +
-              repeat('\n', 2)
-            )
-          }
-        })
-        .join('')
-      : ''
-    )
+    (argument.information ? information(argument.information) : '')
   )
+}
+
+function information (data) {
+  return (
+    Array.isArray(data)
+      ? data.map(function (element) {
+        return informationParagraph(element, false)
+      })
+      : Object.keys(data).map(function (key) {
+        return informationParagraph(key, data[key])
+      })
+  ).join('')
+}
+
+// How to display information fields
+var fields = {
+  address: ['Address', 4],
+  date: ['Date', 0],
+  email: ['Email', 0]
+}
+
+function informationParagraph (key, value) {
+  var match = fields[key]
+  if (match) {
+    return indentedParagraph(
+      match[0] + ':' + (
+        (match[1] === 0 ? '\t' : '\n') +
+        (value ||  repeat('\n', match[1] + 1)) +
+        '\n'
+      )
+    )
+  } else {
+    return indentedParagraph(
+      capitalize(key) + ':' + (
+        value
+          ? ('\t' + escape(value) + '\n')
+          : repeat('\n', 2)
+      )
+    )
+  }
 }
 
 function ooxmlSignaturePages (signatures) {
