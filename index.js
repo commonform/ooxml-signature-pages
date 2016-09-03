@@ -131,24 +131,25 @@ function termParagraph (term) {
 
 // Generate a signature page.
 function page (argument) {
-  var lastTitle = 'entities' in argument
+  var hasEntities = (
+    'entities' in argument &&
+    Array.isArray(argument.entities) &&
+    argument.entities.length !== 0
+  )
+  var lastTitle = hasEntities
   ? argument.entities[argument.entities.length - 1].by
   : null
   return (
     ('header' in argument ? header(argument.header) : '') +
     ('term' in argument ? termParagraph(argument.term) : '') +
-    (
-      'entities' in argument
-      ? entityParagraphs(argument.entities)
-      : ''
-    ) +
+    (hasEntities ? entityParagraphs(argument.entities) : '') +
     indentedParagraph('\n\n' + BY + '\n') +
     indentedParagraph(
       'Name:' +
       (argument.name ? ('\t' + argument.name) : '') +
       '\n'
     ) + (
-      'entities' in argument
+      hasEntities
       ? indentedParagraph(
         'Title:' +
         (lastTitle ? ('\t' + lastTitle) : '') +
