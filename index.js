@@ -139,7 +139,12 @@ function page (argument) {
     indentedParagraph(
       '\n\n' + BY +
       (argument.conformed ? ('\t' + argument.conformed) : '') +
-      '\n'
+      ('meta' in argument ? '' : '\n')
+    ) +
+    (
+      'meta' in argument
+        ? indentedParagraph(argument.meta + '\n')
+        : ''
     ) +
     indentedParagraph(
       'Name:' +
