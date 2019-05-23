@@ -4,7 +4,7 @@
   "description": "Generate OOXML markup for signature pages",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "repository": "commonform/ooxml-signature-pages",
-  "license": "Apache-2.0",
+  "license": "BlueOak-1.0.0",
   "dependencies": {
     "capitalize": "^1.0.0",
     "indefinite-article": "0.0.2",
