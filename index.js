@@ -130,8 +130,8 @@ function page (argument) {
     argument.entities.length !== 0
   )
   var lastTitle = hasEntities
-  ? argument.entities[argument.entities.length - 1].by
-  : null
+    ? argument.entities[argument.entities.length - 1].by
+    : null
   return (
     ('header' in argument ? header(argument.header) : '') +
     ('term' in argument ? termParagraph(argument.term) : '') +
@@ -152,12 +152,10 @@ function page (argument) {
       '\n'
     ) + (
       hasEntities
-      ? indentedParagraph(
-        'Title:' +
-        (lastTitle ? ('\t' + lastTitle) : '') +
-        '\n'
-      )
-      : ''
+        ? indentedParagraph(
+          'Title:' + (lastTitle ? ('\t' + lastTitle) : '') + '\n'
+        )
+        : ''
     ) +
     (argument.information ? information(argument.information) : '')
   )
@@ -188,7 +186,7 @@ function informationParagraph (key, value) {
     return indentedParagraph(
       match[0] + ':' + (
         (match[1] === 0 ? '\t' : '\n') +
-        (value ||  repeat('\n', match[1] + 1)) +
+        (value || repeat('\n', match[1] + 1)) +
         '\n'
       )
     )
@@ -214,17 +212,17 @@ function ooxmlSignaturePages (signatures) {
   var firstSignature = signatures[0]
   return (
     (
-      (signatureCount === 0)
-      ? DOCUMENT_ENDS_HERE
-      : firstSignature.samePage
-        ? firstSignature.header
-          ? ''
-          : (signatureCount === 1)
-            ? SIGNATURE_FOLLOWS
-            : SIGNATURES_FOLLOW
-        : (pageCount === 1)
-          ? PAGE_FOLLOWS
-          : PAGES_FOLLOW
+      signatureCount === 0
+        ? DOCUMENT_ENDS_HERE
+        : firstSignature.samePage
+          ? firstSignature.header
+            ? ''
+            : signatureCount === 1
+              ? SIGNATURE_FOLLOWS
+              : SIGNATURES_FOLLOW
+          : pageCount === 1
+            ? PAGE_FOLLOWS
+            : PAGES_FOLLOW
     ) +
     signatures.map(function (pageData) {
       return (
