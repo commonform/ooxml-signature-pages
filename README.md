@@ -1,6 +1,6 @@
 # ooxml-signature-pages
 
-Given an Array of signature page objects satisfying [signature-page-schema](https://www.npmjs.com/package/signature-page-schema), return a string of [Open Office XML](https://en.wikipedia.org/wiki/Office_Open_XML) (Microsoft Word `.docx`) markup.
+Given an Array of signature page objects satisfying [signature-page-schema](https://www.npmjs.com/package/signature-page-schema), return a string of [Office Open XML](https://en.wikipedia.org/wiki/Office_Open_XML) (Microsoft Word `.docx`) markup.
 
 ```javascript
 var assert = require('assert')
