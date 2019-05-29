@@ -12,9 +12,12 @@
     "xml-escape": "^1.0.0"
   },
   "devDependencies": {
+    "defence-cli": "^3.0.1",
+    "replace-require-self": "^1.1.1",
     "standard": "^12.0.1"
   },
   "scripts": {
-    "lint": "standard"
+    "lint": "standard",
+    "test": "defence -i javascript README.md | replace-require-self | node"
   }
 }
