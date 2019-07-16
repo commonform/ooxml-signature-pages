@@ -14,7 +14,7 @@
   "devDependencies": {
     "defence-cli": "^3.0.1",
     "replace-require-self": "^1.1.1",
-    "standard": "^12.0.1"
+    "standard": "^13.0.2"
   },
   "scripts": {
     "lint": "standard",
