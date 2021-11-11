@@ -16,6 +16,9 @@
     "replace-require-self": "^1.1.1",
     "standard": "^14.0.2"
   },
+  "files": [
+    "index.js"
+  ],
   "scripts": {
     "lint": "standard",
     "test": "defence -i javascript README.md | replace-require-self | node"
