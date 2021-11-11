@@ -92,14 +92,12 @@ function indentedParagraph (text) {
   )
 }
 
-var BY = 'By:'
-
 // Generate indented paragraphs for each of the entities in a block.
 function entityParagraphs (entities) {
   return entities.reduce(function (returned, element, index, list) {
     var first = index === 0
     return returned.concat(indentedParagraph(
-      (first ? '' : BY) +
+      (first ? '' : 'By:') +
       (element.name ? (element.name + ',') : '') + '\n\n' +
       indefinite(element.jurisdiction || 'Delaware') + ' ' +
       (element.jurisdiction || '') + ' ' +
@@ -137,7 +135,8 @@ function page (argument) {
     ('term' in argument ? termParagraph(argument.term) : '') +
     (hasEntities ? entityParagraphs(argument.entities) : '') +
     indentedParagraph(
-      '\n\n' + BY +
+      '\n\n' +
+      (argument.prompt ? argument.prompt : 'By:') +
       (argument.conformed ? ('\t' + argument.conformed) : '') +
       ('meta' in argument ? '' : '\n')
     ) +
