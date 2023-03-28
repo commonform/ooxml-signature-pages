@@ -98,7 +98,7 @@ function entityParagraphs (entities) {
     var first = index === 0
     return returned.concat(indentedParagraph(
       (first ? '' : 'By:') +
-      (element.name ? (element.name + ',') : '') + '\n\n' +
+      (element.name ? (element.name + ',') : '') + '\n' +
       indefinite(element.jurisdiction || 'Delaware') + ' ' +
       (element.jurisdiction || '') + ' ' +
       (element.form || '') +
