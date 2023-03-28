@@ -191,7 +191,7 @@ function informationParagraph (key, value) {
     )
   } else {
     return indentedParagraph(
-      capitalize(key) + ':' + (
+      capitalize.words(key, true) + ':' + (
         value
           ? ('\t' + escape(value) + '\n')
           : repeat('\n', 2)

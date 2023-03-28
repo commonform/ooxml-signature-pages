@@ -49,7 +49,9 @@ var preFilled = signaturePages([
     ],
     name: 'Jane Manager',
     information: {
-      date: 'January 1, 2019'
+      date: 'January 1, 2019',
+      email: 'jane@someco.com',
+      'with copies to': 'legal@someco.com'
     }
   },
   {
@@ -61,4 +63,5 @@ var preFilled = signaturePages([
   }
 ])
 assert(typeof preFilled === 'string')
+assert(preFilled.includes('With Copies To'))
 ```
