@@ -185,7 +185,7 @@ function informationParagraph (key, value) {
     return indentedParagraph(
       match[0] + ':' + (
         (match[1] === 0 ? '\t' : '\n') +
-        (value || repeat('\n', match[1] + 1)) +
+        (value || repeat('\n', match[1])) +
         '\n'
       )
     )
