@@ -180,7 +180,7 @@ var fields = {
 }
 
 function informationParagraph (key, value) {
-  var match = fields[key]
+  var match = fields[key.toLowerCase()]
   if (match) {
     return indentedParagraph(
       match[0] + ':' + (
