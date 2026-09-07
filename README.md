@@ -3,14 +3,14 @@
 Given an Array of signature page objects satisfying [signature-page-schema](https://www.npmjs.com/package/signature-page-schema), return a string of [Office Open XML](https://en.wikipedia.org/wiki/Office_Open_XML) (Microsoft Word `.docx`) markup.
 
 ```javascript
-var assert = require('assert')
-var signaturePages = require('ooxml-signature-pages')
+import signaturePages from 'ooxml-signature-pages'
+import assert from 'node:assert'
 ```
 
 ## Blank Pages
 
 ```javascript
-var blankPages = signaturePages([
+const blankPages = signaturePages([
   {
     header: (
       'The parties are signing this agreement ' +
@@ -37,7 +37,7 @@ assert(typeof blankPages === 'string')
 ## Pre-Filled Pages
 
 ```javascript
-var preFilled = signaturePages([
+const preFilled = signaturePages([
   {
     entities: [
       {

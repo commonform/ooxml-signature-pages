@@ -4,6 +4,8 @@
   "description": "Generate OOXML markup for signature pages",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "repository": "commonform/ooxml-signature-pages",
+  "type": "module",
+  "main": "index.js",
   "license": "BlueOak-1.0.0",
   "dependencies": {
     "capitalize": "^2.0.0",
@@ -12,15 +14,13 @@
     "xml-escape": "^1.0.0"
   },
   "devDependencies": {
-    "defence-cli": "^3.0.1",
-    "replace-require-self": "^1.1.1",
-    "standard": "^14.0.2"
+    "defence-cli": "^3.0.1"
   },
   "files": [
     "index.js"
   ],
   "scripts": {
     "lint": "standard",
-    "test": "defence -i javascript README.md | replace-require-self | node"
+    "test": "defence -i javascript README.md | sed \"s!from 'ooxml-signature-pages'!from './index.js'!\" | node"
   }
 }

@@ -1,9 +1,7 @@
-var capitalize = require('capitalize')
-var escape = require('xml-escape')
-var indefinite = require('indefinite-article')
-var repeat = require('string-repeat')
-
-module.exports = ooxmlSignaturePages
+import capitalize from 'capitalize'
+import escape from 'xml-escape'
+import indefinite from 'indefinite-article'
+import repeat from 'string-repeat'
 
 // OOXML Paragraph
 function p (content) {
@@ -26,41 +24,41 @@ function t (text) {
 }
 
 // A paragraph containing just a page break
-var PAGE_BREAK = p(run('<w:br w:type="page"/>'))
+const PAGE_BREAK = p(run('<w:br w:type="page"/>'))
 
-var LINE_BREAK = '<w:br/>'
+const LINE_BREAK = '<w:br/>'
 
 // [Signature pages follow.], centered
-var PAGES_FOLLOW = p(
+const PAGES_FOLLOW = p(
   pPr('<w:jc w:val="center" />') +
   run(t('[Signature pages follow.]'))
 )
 
 // [Signature page follows.], centered
-var PAGE_FOLLOWS = p(
+const PAGE_FOLLOWS = p(
   pPr('<w:jc w:val="center" />') +
   run(t('[Signature page follows.]'))
 )
 
 // [Document ends here.], centered
-var DOCUMENT_ENDS_HERE = p(
+const DOCUMENT_ENDS_HERE = p(
   pPr('<w:jc w:val="center" />') +
   run(t('[Document ends here.]'))
 )
 
 // [Signature follows.], centered
-var SIGNATURE_FOLLOWS = p(
+const SIGNATURE_FOLLOWS = p(
   pPr('<w:jc w:val="center" />') +
   run(t('[Signature follows.]'))
 )
 
 // [Signature follows.], centered
-var SIGNATURES_FOLLOW = p(
+const SIGNATURES_FOLLOW = p(
   pPr('<w:jc w:val="center" />') +
   run(t('[Signatures follow.]'))
 )
 
-var HEADER_INDENT = '0'
+const HEADER_INDENT = '0'
 
 // Generate a header paragraph. The part that usually says "The parties
 // are entering into...".
@@ -75,7 +73,7 @@ function header (text) {
   )
 }
 
-var BLOCK_INDENT = '4320'
+const BLOCK_INDENT = '4320'
 
 // Generate an indented paragraph.
 function indentedParagraph (text) {
@@ -95,7 +93,7 @@ function indentedParagraph (text) {
 // Generate indented paragraphs for each of the entities in a block.
 function entityParagraphs (entities) {
   return entities.reduce(function (returned, element, index, list) {
-    var first = index === 0
+    const first = index === 0
     return returned.concat(indentedParagraph(
       (first ? '' : 'By:') +
       (element.name ? (element.name + ',') : '') + '\n' +
@@ -107,7 +105,7 @@ function entityParagraphs (entities) {
   }, [])
 }
 
-var BOLD = '<w:rPr><w:b /></w:rPr>'
+const BOLD = '<w:rPr><w:b /></w:rPr>'
 
 // Generate an indented paragraph with the defined term for the signing
 // party in bold type.
@@ -122,12 +120,12 @@ function termParagraph (term) {
 
 // Generate a signature page.
 function page (argument) {
-  var hasEntities = (
+  const hasEntities = (
     'entities' in argument &&
     Array.isArray(argument.entities) &&
     argument.entities.length !== 0
   )
-  var lastTitle = hasEntities
+  const lastTitle = hasEntities
     ? argument.entities[argument.entities.length - 1].by
     : null
   return (
@@ -173,14 +171,14 @@ function information (data) {
 }
 
 // How to display information fields
-var fields = {
+const fields = {
   address: ['Address', 4],
   date: ['Date', 0],
   email: ['Email', 0]
 }
 
 function informationParagraph (key, value) {
-  var match = fields[key.toLowerCase()]
+  const match = fields[key.toLowerCase()]
   if (match) {
     return indentedParagraph(
       match[0] + ':' + (
@@ -200,15 +198,15 @@ function informationParagraph (key, value) {
   }
 }
 
-function ooxmlSignaturePages (signatures) {
+export default function ooxmlSignaturePages (signatures) {
   if (!Array.isArray(signatures)) {
     throw new Error('Argument must be an Array of signatures.')
   }
-  var signatureCount = signatures.length
-  var pageCount = signatures.reduce(function (count, pageData) {
+  const signatureCount = signatures.length
+  const pageCount = signatures.reduce(function (count, pageData) {
     return count + (pageData.samePage ? 0 : 1)
   }, 0)
-  var firstSignature = signatures[0]
+  const firstSignature = signatures[0]
   return (
     (
       signatureCount === 0
